@@ -2,6 +2,7 @@ import { BrowserRouter,Route,Routes } from "react-router-dom"
 import HomePage from "./components/Home/HomePage"
 import PublicNavbar from "./components/Navbar/PublicNavbar"
 import LoginForm from "./components/Users/Login"
+import AddCategory from "./components/Category/AddCategory"
 import RegistrationForm from "./components/Users/Register"
 import PrivateNavbar from "./components/Navbar/PrivateNavbar"
 import { getUserFromStorage } from "./utils/getUserStorage"
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/add-category" element={<AddCategory />} />
         </Routes>
       </BrowserRouter>
     </>
