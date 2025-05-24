@@ -30,7 +30,7 @@ const AddCategory = () => {
   //mutation
   const { mutateAsync,isPending,isError,error,isSuccess } = useMutation({
     mutationFn: addCategoryAPI,
-    mutationKey: ['add']
+    mutationKey: ['add-category']
   });
   const formik = useFormik({
     initialValues: {
@@ -68,7 +68,7 @@ const AddCategory = () => {
       {isSuccess && (
         <AlertMessage
           type="success"
-          message="Category added successfully, redirecting..."
+          message="Category added successfully"
         />
       )}
       {/* Category Type */}
