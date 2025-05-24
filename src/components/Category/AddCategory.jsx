@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
 
 const AddCategory = () => {
   //Navigate
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   //Dispatch
   const dispatch = useDispatch();
   //mutation
@@ -40,7 +40,9 @@ const AddCategory = () => {
     validationSchema,
     onSubmit: (values) => {
       mutateAsync(values)
-      .then((data)=>console.log(data))
+      .then((data)=>{
+        navigate('/categories');
+      })
       .catch((e)=>console.log(e))
     },
   });

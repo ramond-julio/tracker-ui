@@ -4,10 +4,12 @@ import PublicNavbar from "./components/Navbar/PublicNavbar"
 import LoginForm from "./components/Users/Login"
 import AddCategory from "./components/Category/AddCategory"
 import CategoriesList from "./components/Category/CategoriesList"
+import UpdateCategory from "./components/Category/UpdateCategory"
 import RegistrationForm from "./components/Users/Register"
 import PrivateNavbar from "./components/Navbar/PrivateNavbar"
 import { getUserFromStorage } from "./utils/getUserStorage"
 import { useSelector } from "react-redux"
+
 
 function App() {
   //get user 
@@ -23,6 +25,7 @@ function App() {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/add-category" element={<AddCategory />} />
           <Route path="/categories" element={<CategoriesList />} />
+          <Route path="/update-category/:id" element={<UpdateCategory />} />
         </Routes>
       </BrowserRouter>
     </>

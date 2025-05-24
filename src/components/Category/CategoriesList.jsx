@@ -1,15 +1,39 @@
 import React from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
-import { listsCategoryAPI } from "../../services/categories/categoriesServices";
+import { Link, useNavigate } from "react-router-dom";
+import { deleteCategoryAPI, listsCategoryAPI } from "../../services/categories/categoriesServices";
 import AlertMessage from "../Alert/AlertMessage";
+import { useDispatch } from "react-redux";
 
 const CategoriesList = () => {
-  const {data, isError, isFetched, isLoading,error} = useQuery({
+  //Fetch Data
+  const {data, isError, isFetched, isLoading,error, refetch} = useQuery({
     queryFn: listsCategoryAPI,
     queryKey: ['list-categories']
   });
+
+  //Delete
+
+  //Navigate
+  const navigate = useNavigate();
+  //Dispatch
+  const dispatch = useDispatch();
+  //mutation
+  const { mutateAsync,isPending,error:categoryError,isSuccess } = useMutation({
+    mutationFn: deleteCategoryAPI,
+    mutationKey: ['delete-category']
+  });
+
+  //Delete Handler
+  const handleDelete = (id) => {
+    mutateAsync(id)
+    .then((data)=>{
+      //Refetch
+      refetch();
+    })
+    .catch(e=>console.log(e));
+  }
 
   return (
     <div className="max-w-md mx-auto my-10 bg-white p-6 rounded-lg shadow-lg">
@@ -43,7 +67,7 @@ const CategoriesList = () => {
                 </button>
               </Link>
               <button
-                // onClick={() => handleDelete(category?._id)}
+                onClick={() => handleDelete(category?._id)}
                 className="text-red-500 hover:text-red-700"
               >
                 <FaTrash />
