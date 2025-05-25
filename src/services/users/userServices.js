@@ -26,6 +26,19 @@ export const registerAPI = async({ email, password,username })=>{
     return response.data;
 }
 
+//Profile
+export const profileAPI = async()=>{
+    const response = await axios.get(`${BASE_URL}/users/profile`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    //return promise
+    return response.data;
+}
+
 //Change Password
 export const changePasswordAPI = async(newPassword)=>{
     const response = await axios.put(`${BASE_URL}/users/change-password`,

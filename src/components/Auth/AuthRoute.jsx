@@ -1,4 +1,3 @@
-import React from 'react'
 import { getUserFromStorage } from '../../utils/getUserStorage';
 import { Navigate } from 'react-router-dom';
 
