@@ -6,7 +6,7 @@ import FilterSection from "../Transactions/FilterSection";
 const Dashboard = () => {
   return (
     <>
-      {/* <TransactionChart /> */}
+      <TransactionChart />
       <TransactionList />
     </>
   );

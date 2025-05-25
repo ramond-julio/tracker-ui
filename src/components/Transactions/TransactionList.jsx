@@ -24,15 +24,15 @@ const TransactionList = () => {
     queryKey: ['list-transactions', filters]
   });
   //Fetch Data Category
-    const {
-      data:category, 
-      isError:isCategoryError, 
-      isLoading:isCategoryLoading,
-      error:categoryError
-    } = useQuery({
-      queryFn: listsCategoryAPI,
-      queryKey: ['list-categories']
-    });
+  const {
+    data:category, 
+    isError:isCategoryError, 
+    isLoading:isCategoryLoading,
+    error:categoryError
+  } = useQuery({
+    queryFn: listsCategoryAPI,
+    queryKey: ['list-categories']
+  });
   return (
     <div className="my-4 p-4 shadow-lg rounded-lg bg-white">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">

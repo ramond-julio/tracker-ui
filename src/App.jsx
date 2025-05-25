@@ -11,8 +11,6 @@ import { getUserFromStorage } from "./utils/getUserStorage"
 import { useSelector } from "react-redux"
 import TransactionForm from "./components/Transactions/TransactionForm"
 import Dashboard from "./components/Users/Dashboard"
-import TransactionList from "./components/Transactions/TransactionList"
-
 
 function App() {
   //get user 
@@ -28,7 +26,6 @@ function App() {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/add-category" element={<AddCategory />} />
           <Route path="/categories" element={<CategoriesList />} />
-          <Route path="/transactions" element={<TransactionList />} />
           <Route path="/update-category/:id" element={<UpdateCategory />} />
           <Route path="/add-transaction" element={<TransactionForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
