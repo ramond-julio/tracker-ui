@@ -6,10 +6,10 @@ import FilterSection from "../Transactions/FilterSection";
 const Dashboard = () => {
   return (
     <>
-      <TransactionChart />
-      <FilterSection />
+      {/* <TransactionChart /> */}
+      <TransactionList />
     </>
   );
-};
+};  
 
 export default Dashboard;
