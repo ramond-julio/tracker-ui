@@ -11,7 +11,7 @@ import { listsCategoryAPI } from "../../services/categories/categoriesServices";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateTransactionAPI } from "../../services/transactions/transactionsServices";
+import { getTransactionAPI, updateTransactionAPI } from "../../services/transactions/transactionsServices";
 import AlertMessage from "../Alert/AlertMessage";
 
 const validationSchema = Yup.object({
@@ -33,6 +33,12 @@ const UpdateTransaction = () => {
     const navigate = useNavigate();
     //Dispatch
     const dispatch = useDispatch();
+    //Fetch Category By Id
+    const {data: transactionData} = useQuery({
+        queryFn: () => getTransactionAPI(id),
+        queryKey: ['get-transaction', id]
+    });
+    const dataTransaction = transactionData;
     //mutation
     const { mutateAsync,isPending,isError:isAddTransactionError,error:transactionError,isSuccess } = useMutation({
     mutationFn: updateTransactionAPI,
@@ -64,6 +70,19 @@ const UpdateTransaction = () => {
         .catch((e)=>console.log(e))
     },
     });
+    useEffect(() => {
+    if (dataTransaction) {
+        const formattedDate = transactionData?.date ? new Date(transactionData.date).toISOString().split('T')[0] : '';
+        formik.setValues({
+            type: dataTransaction?.type,
+            name: dataTransaction?.name,
+            category:dataTransaction?.category,
+            amount:dataTransaction?.amount,
+            date: formattedDate,
+            description:dataTransaction?.description
+        });
+    }
+    }, [dataTransaction]);
     return (
         <form
         onSubmit={formik.handleSubmit}

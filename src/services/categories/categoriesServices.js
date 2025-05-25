@@ -55,3 +55,17 @@ export const listsCategoryAPI = async()=>{
     //return promise
     return response.data;
 }
+
+//Get Category
+export const getCategoryAPI = async(id)=>{
+    const response = await axios.get(`${BASE_URL}/categories/get-category/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    //return promise
+    return response.data;
+    
+}

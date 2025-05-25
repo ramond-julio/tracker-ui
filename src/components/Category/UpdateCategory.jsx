@@ -10,7 +10,7 @@ import {
 import { SiDatabricks } from "react-icons/si";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { updateCategoryAPI } from "../../services/categories/categoriesServices";
+import { getCategoryAPI, updateCategoryAPI } from "../../services/categories/categoriesServices";
 import AlertMessage from "../Alert/AlertMessage";
 import { useDispatch } from "react-redux";
 
@@ -25,11 +25,16 @@ const validationSchema = Yup.object({
 const UpdateCategory = () => {
   //Params
   const {id} = useParams();
+  //Fetch Category By Id
+  const {data} = useQuery({
+    queryFn: () => getCategoryAPI(id),
+    queryKey: ['get-category', id]
+  });
+  const categoryData = data;
   //Navigate
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   //Dispatch
   const dispatch = useDispatch();
-  //mutation
   const { mutateAsync,isPending,isError,error,isSuccess } = useMutation({
     mutationFn: updateCategoryAPI,
     mutationKey: ['update-category']
@@ -52,6 +57,15 @@ const UpdateCategory = () => {
       .catch((e) => console.log(e));
     },
   });
+
+  useEffect(() => {
+    if (categoryData) {
+      formik.setValues({
+        type: categoryData?.type,
+        name: categoryData?.name,
+      });
+    }
+  }, [categoryData]);
 
   return (
     <form

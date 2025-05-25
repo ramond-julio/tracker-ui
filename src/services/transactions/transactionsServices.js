@@ -56,3 +56,16 @@ export const listsTransactionAPI = async({category, type, startDate, endDate})=>
     //return promise
     return response.data;
 }
+
+//Get Category
+export const getTransactionAPI = async(id)=>{
+    const response = await axios.get(`${BASE_URL}/transactions/get-transaction/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    //return promise
+    return response.data;
+}

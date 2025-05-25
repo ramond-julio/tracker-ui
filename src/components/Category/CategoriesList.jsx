@@ -14,7 +14,6 @@ const CategoriesList = () => {
   });
 
   //Delete
-
   //Navigate
   const navigate = useNavigate();
   //Dispatch
