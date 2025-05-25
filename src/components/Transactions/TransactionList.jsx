@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { useQuery } from "@tanstack/react-query";
-import { listsTransactionAPI } from "../../services/transactions/transactionsServices";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { deleteTransactionsAPI, listsTransactionAPI } from "../../services/transactions/transactionsServices";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { listsCategoryAPI } from "../../services/categories/categoriesServices";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const TransactionList = () => {
   //Filtering State
@@ -19,20 +21,40 @@ const TransactionList = () => {
     setFilters((prev)=>({...prev, [name]: value}))
   }
   //Fetch Data Transactions
-  const {data, isError, isFetched, isLoading,error, refetch} = useQuery({
+  const {data, refetch} = useQuery({
     queryFn: ()=>listsTransactionAPI(filters),
     queryKey: ['list-transactions', filters]
   });
   //Fetch Data Category
   const {
     data:category, 
-    isError:isCategoryError, 
-    isLoading:isCategoryLoading,
-    error:categoryError
   } = useQuery({
     queryFn: listsCategoryAPI,
     queryKey: ['list-categories']
   });
+
+  //Delete
+
+  //Navigate
+  const navigate = useNavigate();
+  //Dispatch
+  const dispatch = useDispatch();
+  //mutation
+  const { mutateAsync,error:transactionError,isSuccess } = useMutation({
+    mutationFn: deleteTransactionsAPI,
+    mutationKey: ['delete-transaction']
+  });
+
+  //Delete Handler
+  const handleDelete = (id) => {
+    mutateAsync(id)
+    .then((data)=>{
+      //Refetch
+      refetch();
+    })
+    .catch(e=>console.log(e));
+  }
+
   return (
     <div className="my-4 p-4 shadow-lg rounded-lg bg-white">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -122,12 +144,13 @@ const TransactionList = () => {
                   </span>
                 </div>
                 <div className="flex space-x-3">
-                  <button
-                    onClick={() => handleUpdateTransaction(transaction.id)}
-                    className="text-blue-500 hover:text-blue-700"
-                  >
-                    <FaEdit />
-                  </button>
+                  <Link to={`/update-transaction/${transaction._id}`}>
+                    <button
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      <FaEdit />
+                    </button>
+                  </Link>
                   <button
                     onClick={() => handleDelete(transaction._id)}
                     className="text-red-500 hover:text-red-700"

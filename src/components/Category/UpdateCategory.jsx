@@ -16,8 +16,7 @@ import { useDispatch } from "react-redux";
 
 const validationSchema = Yup.object({
   name: Yup.string()
-    .required("Category name is required")
-    .oneOf(["income", "expense"]),
+    .required("Category name is required"),
   type: Yup.string()
     .required("Category type is required")
     .oneOf(["income", "expense"]),

@@ -10,6 +10,7 @@ import PrivateNavbar from "./components/Navbar/PrivateNavbar"
 import { getUserFromStorage } from "./utils/getUserStorage"
 import { useSelector } from "react-redux"
 import TransactionForm from "./components/Transactions/TransactionForm"
+import UpdateTransaction from "./components/Transactions/UpdateTransaction"
 import Dashboard from "./components/Users/Dashboard"
 import UserProfile from "./components/Users/UserProfile"
 import AuthRoute from "./components/Auth/AuthRoute"
@@ -30,6 +31,7 @@ function App() {
           <Route path="/categories" element={<AuthRoute><CategoriesList /></AuthRoute>} />
           <Route path="/update-category/:id" element={<AuthRoute><UpdateCategory /></AuthRoute>} />
           <Route path="/add-transaction" element={<AuthRoute><TransactionForm /></AuthRoute>} />
+          <Route path="/update-transaction/:id" element={<AuthRoute><UpdateTransaction /></AuthRoute>} />
           <Route path="/dashboard" element={<AuthRoute><Dashboard /></AuthRoute>} />
           <Route path="/profile" element={<AuthRoute><UserProfile /></AuthRoute>} />
         </Routes>

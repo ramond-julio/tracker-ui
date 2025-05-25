@@ -19,31 +19,31 @@ export const addTransactionAPI = async({ type,amount,date,description,category }
 }
 
 //Update
-// export const updateCategoryAPI = async({ name, type,id })=>{
-//     const response = await axios.put(`${BASE_URL}/categories/update/${id}`,
-//         {name,type},
-//         {
-//             headers: {
-//                 Authorization: `Bearer ${token}`
-//             }
-//         }
-//     );
-//     //return promise
-//     return response.data;
-// }
+export const updateTransactionAPI = async({ type,amount,date,description,category,id })=>{
+    const response = await axios.put(`${BASE_URL}/transactions/update/${id}`,
+        {type,amount,date,description,category},
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    //return promise
+    return response.data;
+}
 
 //Delete
-// export const deleteCategoryAPI = async(id)=>{
-//     const response = await axios.delete(`${BASE_URL}/categories/delete/${id}`,
-//         {
-//             headers: {
-//                 Authorization: `Bearer ${token}`
-//             }
-//         }
-//     );
-//     //return promise
-//     return response.data;
-// }
+export const deleteTransactionsAPI = async(id)=>{
+    const response = await axios.delete(`${BASE_URL}/transactions/delete/${id}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+    );
+    //return promise
+    return response.data;
+}
 
 //List
 export const listsTransactionAPI = async({category, type, startDate, endDate})=>{
