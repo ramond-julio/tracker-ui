@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { listsTransactionAPI } from "../../services/transactions/transactionsServices";
@@ -6,10 +6,22 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { listsCategoryAPI } from "../../services/categories/categoriesServices";
 
 const TransactionList = () => {
+  //Filtering State
+  const [filters,setFilters] = useState({
+    startDate:'',
+    endDate:'',
+    type:'',
+    category:''
+  })
+  //Handle Filter Change
+  const handleFilterChange = (e) => {
+    const {name,value} = e.target;
+    setFilters((prev)=>({...prev, [name]: value}))
+  }
   //Fetch Data Transactions
   const {data, isError, isFetched, isLoading,error, refetch} = useQuery({
-    queryFn: listsTransactionAPI,
-    queryKey: ['list-transactions']
+    queryFn: ()=>listsTransactionAPI(filters),
+    queryKey: ['list-transactions', filters]
   });
   //Fetch Data Category
     const {
@@ -28,18 +40,24 @@ const TransactionList = () => {
         <input
           type="date"
           name="startDate"
+          value={filters.startDate}
+          onChange={handleFilterChange}
           className="p-2 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         />
         {/* End Date */}
         <input
           type="date"
           name="endDate"
+          value={filters.endDate}
+          onChange={handleFilterChange}
           className="p-2 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
         />
         {/* Type */}
         <div className="relative">
           <select
             name="type"
+            value={filters.type}
+            onChange={handleFilterChange}
             className="w-full p-2 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 appearance-none"
           >
             <option value="">All Types</option>
@@ -52,8 +70,12 @@ const TransactionList = () => {
         <div className="relative">
           <select
             name="category"
+            value={filters.category}
+            onChange={handleFilterChange}
             className="w-full p-2 rounded-lg border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 appearance-none"
           >
+            <option value="All">All</option>
+            <option value="Uncategorized">Uncategorized</option>
             {category?.map((category) => {
               return (
                 <option key={category?._id} value={category?.name}>
@@ -74,7 +96,7 @@ const TransactionList = () => {
           <ul className="list-disc pl-5 space-y-2">
             {data?.map((transaction) => (
               <li
-                key={transaction.id}
+                key={transaction._id}
                 className="bg-white p-3 rounded-md shadow border border-gray-200 flex justify-between items-center"
               >
                 <div>
