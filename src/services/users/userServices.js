@@ -1,8 +1,8 @@
 import { BASE_URL } from "../../utils/url";
 import { getUserFromStorage } from "../../utils/getUserStorage";
 import axios from "axios";
+import axiosInstance from "../../utils/axiosInstance";
 
-const token = getUserFromStorage();
 //Login
 export const loginAPI = async({ email, password})=>{
     const response = await axios.post(`${BASE_URL}/users/login`,{
@@ -28,28 +28,16 @@ export const registerAPI = async({ email, password,username })=>{
 
 //Profile
 export const profileAPI = async()=>{
-    const response = await axios.get(`${BASE_URL}/users/profile`,
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
-    );
+    const response = await axiosInstance.get(`${BASE_URL}/users/profile`);
     //return promise
     return response.data;
 }
 
 //Change Password
 export const changePasswordAPI = async(newPassword)=>{
-    const response = await axios.put(`${BASE_URL}/users/change-password`,
-        {
-            newPassword
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
+    const response = await axiosInstance.put(
+        `${BASE_URL}/users/change-password`,
+        {newPassword}
     );
     //return promise
     return response.data;
@@ -58,16 +46,9 @@ export const changePasswordAPI = async(newPassword)=>{
 
 //Update Profile
 export const updateProfileAPI = async({ email, username })=>{
-    const response = await axios.put(`${BASE_URL}/users/update-profile`,
-        {
-            email,
-            username
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }
+    const response = await axiosInstance.put(
+        `${BASE_URL}/users/update-profile`,
+        { email,username }
     );
     //return promise
     return response.data;

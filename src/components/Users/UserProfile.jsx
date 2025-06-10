@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaUserCircle, FaEnvelope, FaLock } from "react-icons/fa";
 import { useFormik } from "formik";
 import UpdatePassword from "./UpdatePassword";
 import { profileAPI, updateProfileAPI } from "../../services/users/userServices";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AlertMessage from "../Alert/AlertMessage";
 
 const UserProfile = () => {
+  const queryClient = useQueryClient();
   //Fetch Data
   const {data, isError:isErrorProfile} = useQuery({
     queryFn: profileAPI,
     queryKey: ['profile']
   });
+
   //mutation
   const { mutateAsync,isPending,isError,error,isSuccess } = useMutation({
     mutationFn: updateProfileAPI,
@@ -24,12 +26,23 @@ const UserProfile = () => {
     },
 
     //Submit
-    onSubmit: (values) => {
-      mutateAsync(values)
-      .then((data)=>{console.log(data)})
-      .catch(e=>console.log(e));
+    onSubmit: async (values) => {
+      try{
+        await mutateAsync(values);
+        queryClient.invalidateQueries({ queryKey: ['profile']} );
+      } catch (e) {
+        console.log(e)
+      }
     },
   });
+  useEffect(()=> {
+    if (data) {
+      formik.setValues({
+        username: data.username || "",
+        email: data.email || "",
+      });
+    }
+  }, [data]);
   return (
     <>
       <div className="max-w-4xl mx-auto my-10 p-8 bg-white rounded-lg shadow-md">

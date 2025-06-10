@@ -34,7 +34,6 @@ const LoginForm = () => {
     },
     validationSchema,
     onSubmit:(values)=>{
-      console.log(values);
       //http request
       mutateAsync(values)
       .then((data)=>{
